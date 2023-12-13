@@ -1,8 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -37,7 +40,25 @@ public class SellerFormController implements Initializable{
 	private javafx.scene.control.TextField txtName;
 	
 	@FXML
+	private javafx.scene.control.TextField txtEmail;
+	
+	@FXML
+	private javafx.scene.control.DatePicker dpBirthDate;
+	
+	@FXML
+	private javafx.scene.control.TextField txtBaseSalary;
+	
+	@FXML
 	private Label labelErrorName;
+
+	@FXML
+	private Label labelErrorEmail;
+	
+	@FXML
+	private Label labelErrorBirthDate;
+	
+	@FXML
+	private Label labelErrorBaseSalary;
 	
 	@FXML
 	private Button btSave;
@@ -116,7 +137,10 @@ public class SellerFormController implements Initializable{
 
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtName, 30);
+		Constraints.setTextFieldMaxLength(txtName, 70);
+		Constraints.setTextFieldDouble(txtBaseSalary);
+		Constraints.setTextFieldMaxLength(txtEmail, 60);
+		Utils.formatDatePicker(dpBirthDate, "dd/MM/yyyy");
 	}
 	
 	public void updateFormData() {
@@ -125,6 +149,12 @@ public class SellerFormController implements Initializable{
 		}
 		txtId.setText(String.valueOf(entity.getId()));
 		txtName.setText(entity.getName());
+		txtEmail.setText(entity.getEmail());
+		Locale.setDefault(Locale.US);
+		txtBaseSalary.setText(String.format("%.2f", entity.getSalario_base()));
+		if(entity.getAniversario()!= null) {
+		dpBirthDate.setValue(LocalDate.ofInstant(entity.getAniversario().toInstant(), ZoneId.systemDefault()));
+		}
 	}
 	
 	private void setErrorMessages(Map<String, String> errors) {

@@ -76,7 +76,7 @@ public class SellerDaoJDBC implements SellerDao {
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getEmail());
 			st.setDate(3, new java.sql.Date(obj.getAniversario().getTime()));
-			st.setDouble(4, obj.getSalario_base());
+			st.setDouble(4, obj.getSalario_base());;
 			st.setInt(5, obj.getDepartment().getId());
 			st.setInt(6, obj.getId());
 			
@@ -143,7 +143,7 @@ public class SellerDaoJDBC implements SellerDao {
 		obj.setName(rs.getString("Name"));
 		obj.setEmail(rs.getString("Email"));
 		obj.setSalario_base(rs.getDouble("Salario_base"));
-		obj.setAniversario(rs.getDate("Aniversario"));
+		obj.setAniversario(new java.util.Date(rs.getTimestamp("Aniversario").getTime())); 
 		obj.setDepartment(dep);
 		return obj;
 	}
